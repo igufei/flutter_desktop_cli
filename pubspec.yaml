@@ -1,4 +1,4 @@
-name: flutter_desktop_cli
+name: git branch -M main
 version: 1.0.0+1
 publish_to: none
 description: A new Flutter project.

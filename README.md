@@ -1,16 +1,8 @@
 # flutter_desktop_cli
 
-A new Flutter project.
+### flutter桌面项目的创建工具
 
-## Getting Started
+* 自动创建桌面应用的项目结构
+* 删除`ios` `android` `web`文件夹
+* 我只会写代码不会写文档，可以自行`clone`测试
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
