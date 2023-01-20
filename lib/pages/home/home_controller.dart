@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:path/path.dart' as p;
 
 import '../../modules/flutter.dart';
 import '../../modules/structure.dart';
@@ -11,8 +10,8 @@ import '../../widgets/desktop_route.dart';
 
 class HomeController extends GetxController {
   RouteController rc = RouteController();
-  TextEditingController projectNameC = TextEditingController();
-  TextEditingController companyNameC = TextEditingController();
+  TextEditingController projectNameC = TextEditingController(text: 'test');
+  TextEditingController companyNameC = TextEditingController(text: 'com.igf');
   var projectPath = '';
   var projectIconPath = '';
   var log = ''.obs;
@@ -68,9 +67,8 @@ class HomeController extends GetxController {
     log.value = '';
     var time = Stopwatch();
     time.start();
-    var path = p.join(projectPath, projectNameC.text.trim());
     printLog('开始构建项目...');
-    await Flutter.create(path, companyNameC.text.trim(), 'swift', 'java');
+    await Flutter.create(projectPath, projectNameC.text.trim(), companyNameC.text.trim(), 'swift', 'java');
     printLog('开始生成项目结构...');
     await Structure.create();
     printLog('开始添加依赖插件...');

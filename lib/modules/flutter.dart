@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart';
-import 'package:process_run/shell.dart';
+import 'package:path/path.dart' as p;
+//import 'package:process_run/shell.dart';
 import 'package:pubspec/pubspec.dart';
 import 'package:version/version.dart' as v;
 
@@ -59,7 +60,7 @@ class Flutter {
 
   static Future<void> activatedNullSafe() async {
     await pubGet();
-    await run('dart migrate --apply-changes --skip-import-check', verbose: true);
+    //await run('dart migrate --apply-changes --skip-import-check', verbose: true);
   }
 
   static bool containsPackage(String package, [bool isDev = false]) {
@@ -69,17 +70,36 @@ class Flutter {
 
   static Future<void> create(
     String path,
+    String name,
     String? org,
     String iosLang,
     String androidLang,
   ) async {
     print('Running `flutter create $path` …');
     await Directory(path).create(recursive: true);
+
+    await Process.run(
+      'flutter',
+      [
+        'create',
+        '--no-pub',
+        '-i',
+        iosLang,
+        '-a',
+        androidLang,
+        '--org',
+        org ?? 'com.example',
+        name,
+      ],
+      runInShell: true,
+      workingDirectory: path,
+    );
+    path = p.join(path, name);
     Directory.current = path;
-    await run(
+    /* await run(
       'flutter create --no-pub -i $iosLang -a $androidLang --org $org'
       ' "$path"',
-    );
+    ); */
   }
 
   static Future<String?> getLatestVersionFromPackage(String package) async {
@@ -143,7 +163,8 @@ class Flutter {
 
   static Future<void> pubGet() async {
     print('Running `flutter pub get` …');
-    await run('flutter pub get', verbose: true);
+    Process.run('flutter', ['pub', 'get'], runInShell: true);
+    //await run('flutter pub get', verbose: true);
   }
 
   static void pubRemove(String package, {bool logger = true}) {
