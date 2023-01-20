@@ -25,17 +25,8 @@ class Input extends StatelessWidget {
               controller: controller,
               cursorHeight: 18,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.zero,
+                contentPadding: const EdgeInsets.only(left: 5),
                 isDense: false,
-                prefixIcon: Container(
-                  padding: const EdgeInsets.only(left: 5, right: 4),
-                  //color: Colors.red,
-                  child: Icon(
-                    Icons.search,
-                    size: 17,
-                    color: color,
-                  ),
-                ),
                 prefixIconConstraints: const BoxConstraints(minHeight: 17, minWidth: 17),
                 hintText: hintText,
                 border: OutlineInputBorder(

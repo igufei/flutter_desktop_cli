@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -66,75 +68,76 @@ class _DesktopTitleBarState extends State<DesktopTitleBar> {
                       },
                     )),
               ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Click(
-                      onClick: () {
-                        windowManager.minimize();
-                      },
-                      onHover: () {
-                        setState(() {
-                          minBtnBgColor = Colors.black12;
-                        });
-                      },
-                      onTapDown: () {
-                        setState(() {
-                          minBtnBgColor = Colors.black26;
-                        });
-                      },
-                      onExit: () {
-                        setState(() {
-                          minBtnBgColor = Colors.transparent;
-                        });
-                      },
-                      child: Container(
-                        color: minBtnBgColor,
-                        width: 30,
-                        height: 30,
-                        child: const Icon(
-                          Icons.remove,
-                          color: Colors.black,
+              if (Platform.isWindows || Platform.isLinux)
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Click(
+                        onClick: () {
+                          windowManager.minimize();
+                        },
+                        onHover: () {
+                          setState(() {
+                            minBtnBgColor = Colors.black12;
+                          });
+                        },
+                        onTapDown: () {
+                          setState(() {
+                            minBtnBgColor = Colors.black26;
+                          });
+                        },
+                        onExit: () {
+                          setState(() {
+                            minBtnBgColor = Colors.transparent;
+                          });
+                        },
+                        child: Container(
+                          color: minBtnBgColor,
+                          width: 30,
+                          height: 30,
+                          child: const Icon(
+                            Icons.remove,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
-                    ),
-                    Click(
-                      onClick: () {
-                        windowManager.close();
-                      },
-                      onTapDown: () {
-                        setState(() {
-                          closeBtnBgColor = const Color.fromARGB(255, 188, 28, 16);
-                        });
-                      },
-                      onHover: () {
-                        setState(() {
-                          closeBtnBgColor = Colors.red;
-                          closeBtnTextColor = Colors.white;
-                        });
-                      },
-                      onExit: () {
-                        setState(() {
-                          closeBtnBgColor = Colors.transparent;
-                          closeBtnTextColor = Colors.black;
-                        });
-                      },
-                      child: Container(
-                        color: closeBtnBgColor,
-                        width: 30,
-                        height: 30,
-                        child: Icon(
-                          Icons.close,
-                          size: 20,
-                          color: closeBtnTextColor,
+                      Click(
+                        onClick: () {
+                          windowManager.close();
+                        },
+                        onTapDown: () {
+                          setState(() {
+                            closeBtnBgColor = const Color.fromARGB(255, 188, 28, 16);
+                          });
+                        },
+                        onHover: () {
+                          setState(() {
+                            closeBtnBgColor = Colors.red;
+                            closeBtnTextColor = Colors.white;
+                          });
+                        },
+                        onExit: () {
+                          setState(() {
+                            closeBtnBgColor = Colors.transparent;
+                            closeBtnTextColor = Colors.black;
+                          });
+                        },
+                        child: Container(
+                          color: closeBtnBgColor,
+                          width: 30,
+                          height: 30,
+                          child: Icon(
+                            Icons.close,
+                            size: 20,
+                            color: closeBtnTextColor,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              )
+                    ],
+                  ),
+                )
             ],
           ),
         ),

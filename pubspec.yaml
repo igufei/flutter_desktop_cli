@@ -1,5 +1,5 @@
 name: flutter_desktop_cli
-version: 1.0.0+1
+version: 1.0.1+1
 publish_to: none
 description: A new Flutter project.
 environment: 
@@ -22,6 +22,7 @@ dependencies:
   file_picker: ^5.2.5
   filesystem_picker: ^3.1.0
   file_selector: ^0.9.2+2
+  path: ^1.8.2
 
 dev_dependencies: 
   flutter_lints: ^2.0.0

@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:window_manager/window_manager.dart';
@@ -60,6 +62,7 @@ class _DesktopAppState extends State<DesktopApp> {
               decoration:
                   const BoxDecoration(border: Border(right: BorderSide(color: Color.fromARGB(255, 207, 206, 206)))),
               child: Column(children: [
+                if (Platform.isMacOS) const SizedBox(height: 20),
                 if (widget.leading != null) widget.leading!,
                 const SizedBox(height: 10),
                 ...widget.pages.asMap().entries.map((e) {

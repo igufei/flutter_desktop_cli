@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:path/path.dart' as p;
 
 import '../../modules/flutter.dart';
 import '../../modules/structure.dart';
@@ -67,7 +68,7 @@ class HomeController extends GetxController {
     log.value = '';
     var time = Stopwatch();
     time.start();
-    var path = '$projectPath\\${projectNameC.text.trim()}';
+    var path = p.join(projectPath, projectNameC.text.trim());
     printLog('开始构建项目...');
     await Flutter.create(path, companyNameC.text.trim(), 'swift', 'java');
     printLog('开始生成项目结构...');
