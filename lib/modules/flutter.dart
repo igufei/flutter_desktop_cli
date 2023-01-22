@@ -69,6 +69,7 @@ class Flutter {
   }
 
   static Future<void> create(
+    String flutterPath,
     String path,
     String name,
     String? org,
@@ -79,7 +80,7 @@ class Flutter {
     await Directory(path).create(recursive: true);
 
     await Process.run(
-      'flutter',
+      flutterPath,
       [
         'create',
         '--no-pub',

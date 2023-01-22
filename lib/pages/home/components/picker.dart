@@ -5,6 +5,7 @@ import 'package:flutter_desktop_cli/widgets/click.dart';
 class Picker extends StatefulWidget {
   final String title;
   final PickerType type;
+  String path;
   List<String>? allowedExtensions;
   final Function(String path) onFinished;
   Picker({
@@ -12,6 +13,7 @@ class Picker extends StatefulWidget {
     required this.title,
     required this.onFinished,
     required this.type,
+    this.path = '',
     this.allowedExtensions,
   });
 
@@ -22,7 +24,6 @@ class Picker extends StatefulWidget {
 enum PickerType { file, folder }
 
 class _PickerState extends State<Picker> {
-  var path = '';
   @override
   Widget build(BuildContext context) {
     Color color = Colors.black45;
@@ -45,7 +46,7 @@ class _PickerState extends State<Picker> {
                       ),
                       child: Text(
                         locale: const Locale('zh', 'CN'),
-                        path,
+                        widget.path,
                         maxLines: 1,
                         overflow: TextOverflow.visible,
                       ),
@@ -58,16 +59,16 @@ class _PickerState extends State<Picker> {
                         if (widget.type == PickerType.folder) {
                           var dirPath = await getDirectoryPath();
                           setState(() {
-                            path = dirPath ?? '';
+                            widget.path = dirPath ?? '';
                           });
-                          widget.onFinished(path);
+                          widget.onFinished(widget.path);
                         } else if (widget.type == PickerType.file) {
                           var file = await openFile(
                               acceptedTypeGroups: [XTypeGroup(label: '文件', extensions: widget.allowedExtensions)]);
                           setState(() {
-                            path = file?.path ?? '';
+                            widget.path = file?.path ?? '';
                           });
-                          widget.onFinished(path);
+                          widget.onFinished(widget.path);
                         }
                       },
                       child: Container(

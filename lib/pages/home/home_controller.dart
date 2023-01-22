@@ -1,8 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_desktop_cli/pages/home/components/picker.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:process_run/shell.dart';
 
 import '../../modules/flutter.dart';
 import '../../modules/structure.dart';
@@ -10,13 +15,23 @@ import '../../widgets/desktop_route.dart';
 
 class HomeController extends GetxController {
   RouteController rc = RouteController();
-  TextEditingController projectNameC = TextEditingController(text: 'test');
-  TextEditingController companyNameC = TextEditingController(text: 'com.igf');
+  TextEditingController projectNameC = TextEditingController(text: '');
+  TextEditingController companyNameC = TextEditingController(text: 'com.example');
   var projectPath = '';
   var projectIconPath = '';
   var log = ''.obs;
   var isTask = false;
+  String? flutterPath;
+  final box = GetStorage();
   void generateDesktopProject(BuildContext context) async {
+    var path = await which('flutter');
+    if (path != null) {
+      flutterPath = path;
+    }
+    if (flutterPath == null) {
+      setFlutterPath(context);
+      return;
+    }
     if (isTask) {
       GFToast.showToast(
         '项目正在构建中，请稍后尝试。',
@@ -68,7 +83,8 @@ class HomeController extends GetxController {
     var time = Stopwatch();
     time.start();
     printLog('开始构建项目...');
-    await Flutter.create(projectPath, projectNameC.text.trim(), companyNameC.text.trim(), 'swift', 'java');
+    await Flutter.create(
+        flutterPath!, projectPath, projectNameC.text.trim(), companyNameC.text.trim(), 'swift', 'java');
     printLog('开始生成项目结构...');
     await Structure.create();
     printLog('开始添加依赖插件...');
@@ -84,7 +100,36 @@ class HomeController extends GetxController {
     print(time.elapsed.inMicroseconds);
   }
 
+  @override
+  void onInit() {
+    flutterPath = box.read('flutter_path') ?? '';
+    super.onInit();
+  }
+
   void printLog(String text) {
     log.value += '$text\n';
+  }
+
+  void setFlutterPath(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          child: Container(
+            width: 400,
+            height: 100,
+            padding: const EdgeInsets.all(20),
+            child: Picker(
+                title: '选择flutter的执行路径',
+                path: flutterPath ?? '',
+                onFinished: (path) {
+                  flutterPath = path;
+                  box.write('flutter_path', flutterPath);
+                },
+                type: PickerType.file),
+          ),
+        );
+      },
+    );
   }
 }

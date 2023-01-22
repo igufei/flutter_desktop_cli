@@ -6,14 +6,14 @@ import 'package:path/path.dart' as p;
 
 class Structure {
   static final _paths = [
-    p.join(Directory.current.path, '/lib/modules'),
-    p.join(Directory.current.path, '/lib/assets/fonts'),
-    p.join(Directory.current.path, '/lib/assets/images'),
-    p.join(Directory.current.path, '/lib/widgets'),
-    p.join(Directory.current.path, '/lib/pages'),
-    p.join(Directory.current.path, '/lib/routes'),
-    p.join(Directory.current.path, '/lib/data'),
-    p.join(Directory.current.path, '/lib/models'),
+    p.join(Directory.current.path, 'lib/modules'),
+    p.join(Directory.current.path, 'lib/assets/fonts'),
+    p.join(Directory.current.path, 'lib/assets/images'),
+    p.join(Directory.current.path, 'lib/widgets'),
+    p.join(Directory.current.path, 'lib/pages'),
+    p.join(Directory.current.path, 'lib/routes'),
+    p.join(Directory.current.path, 'lib/data'),
+    p.join(Directory.current.path, 'lib/models'),
   ];
   static Future<void> create() async {
     await Directory(p.join(Directory.current.path, 'lib')).delete(recursive: true);
