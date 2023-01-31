@@ -15,11 +15,14 @@ import '../../widgets/desktop_route.dart';
 
 class HomeController extends GetxController {
   RouteController rc = RouteController();
+  var platform = 0.obs;
+  var iosLanguage = 0.obs;
+  var androidLanguage = 0.obs;
   TextEditingController projectNameC = TextEditingController(text: '');
   TextEditingController companyNameC = TextEditingController(text: 'com.example');
   var projectPath = '';
   var projectIconPath = '';
-  var log = ''.obs;
+  var log = '软件中会使用get框架来构建整个项目'.obs;
   var isTask = false;
   String? flutterPath;
   final box = GetStorage();
@@ -84,14 +87,22 @@ class HomeController extends GetxController {
     time.start();
     printLog('开始构建项目...');
     await Flutter.create(
-        flutterPath!, projectPath, projectNameC.text.trim(), companyNameC.text.trim(), 'swift', 'java');
+      flutterPath!,
+      projectPath,
+      projectNameC.text.trim(),
+      companyNameC.text.trim(),
+      iosLanguage.value == 0 ? 'swift' : 'objc',
+      androidLanguage.value == 0 ? 'kotlin' : 'java',
+    );
     printLog('开始生成项目结构...');
-    await Structure.create();
+    await Structure.create(platform.value);
     printLog('开始添加依赖插件...');
     await Flutter.pubAdd('get');
-    await Flutter.pubAdd('window_manager');
     await Flutter.pubAdd('get_storage');
     await Flutter.pubAdd('package_info_plus');
+    if (platform.value == 1) {
+      await Flutter.pubAdd('window_manager');
+    }
     await Flutter.pubGet();
     printLog('项目构建成功');
     Directory.current = './';

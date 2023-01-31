@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_desktop_cli/pages/home/components/form_item.dart';
 import 'package:flutter_desktop_cli/pages/home/components/input.dart';
 import 'package:flutter_desktop_cli/pages/home/components/picker.dart';
 import 'package:flutter_desktop_cli/widgets/click.dart';
+import 'package:flutter_desktop_cli/widgets/my_radio_group.dart';
+import 'package:flutter_desktop_cli/widgets/visible.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
 
@@ -19,10 +22,42 @@ class HomePage extends GetView<HomeController> {
       body: Stack(
         children: [
           ListView(
-            padding: const EdgeInsets.only(top: 50, left: 200, right: 200),
+            padding: const EdgeInsets.only(top: 30, left: 200, right: 200),
             children: [
+              MyRadioGroup(
+                  itemsText: ['移动端项目', '桌面端项目'],
+                  color: Colors.blue,
+                  selectIndex: controller.platform.value,
+                  onChanged: (index) {
+                    controller.platform.value = index;
+                  }),
+              SizedBox(height: 10),
               Input(title: '项目名称', hintText: '项目名称只能使用字母、数字、下划线组成', controller: controller.projectNameC),
               Input(title: '公司组织', hintText: 'com.example', controller: controller.companyNameC),
+              Obx(() => Visible(
+                    isVisible: controller.platform.value == 0,
+                    child: FormItem(
+                      title: 'IOS端语言',
+                      child: MyRadioGroup(
+                          itemsText: ['Swift', 'Objective-C'],
+                          selectIndex: controller.iosLanguage.value,
+                          onChanged: (index) {
+                            controller.iosLanguage.value = index;
+                          }),
+                    ),
+                  )),
+              Obx(() => Visible(
+                    isVisible: controller.platform.value == 0,
+                    child: FormItem(
+                      title: 'Android端语言',
+                      child: MyRadioGroup(
+                          itemsText: ['Kotlin', 'Java'],
+                          selectIndex: controller.androidLanguage.value,
+                          onChanged: (index) {
+                            controller.androidLanguage.value = index;
+                          }),
+                    ),
+                  )),
               /* Picker(
                 title: '软件图标',
                 onFinished: (path) {
