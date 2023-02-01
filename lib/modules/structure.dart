@@ -40,22 +40,20 @@ class Structure {
       content = content.replaceFirst('| WS_VISIBLE', '');
       await File(win32WindowFile).writeAsString(content);
     } else if (platformType == 0) {
-      if (platformType == 1) {
-        await Directory(p.join(Directory.current.path, 'lib')).delete(recursive: true);
-        // 解压lib文件夹
-        var buffer = await rootBundle.load('lib/assets/files/desktop_lib.zip');
-        var inputStream = InputStream(buffer);
-        var archive = ZipDecoder().decodeBuffer(inputStream);
-        extractArchiveToDisk(archive, p.join(Directory.current.path, 'lib'));
-        // 创建文件夹
-        for (var path in _paths) {
-          if (!Directory(path).existsSync()) {
-            await Directory(path).create(recursive: true);
-          }
+      await Directory(p.join(Directory.current.path, 'lib')).delete(recursive: true);
+      // 解压lib文件夹
+      var buffer = await rootBundle.load('lib/assets/files/mobile_lib.zip');
+      var inputStream = InputStream(buffer);
+      var archive = ZipDecoder().decodeBuffer(inputStream);
+      extractArchiveToDisk(archive, p.join(Directory.current.path, 'lib'));
+      // 创建文件夹
+      for (var path in _paths) {
+        if (!Directory(path).existsSync()) {
+          await Directory(path).create(recursive: true);
         }
-      } else {
-        throw '平台类型设置错误';
       }
+    } else {
+      throw '平台类型设置错误';
     }
   }
 }
